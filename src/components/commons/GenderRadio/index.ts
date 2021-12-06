@@ -1,0 +1,1 @@
+export { default as GenderRadio } from './src/GenderRadio.vue'
