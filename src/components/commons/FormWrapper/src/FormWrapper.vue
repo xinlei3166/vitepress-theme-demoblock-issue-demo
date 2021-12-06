@@ -1,6 +1,5 @@
 <template>
 	<n-drawer v-model:show='show'
-						@update:show='showUpdate'
 						:placement='placement'
 						:width='width'
 						:height='height'
@@ -18,8 +17,7 @@
 					 preset='card'
 					 :header-style="{paddingBottom:'0'}"
 					 :style="{width: width, overflow:'hidden'}"
-					 v-model:show='show'
-					 @update:show='showUpdate'>
+					 v-model:show='show'>
 		<template #header>
 			<n-h3 prefix='bar'>{{ title }}</n-h3>
 		</template>
@@ -33,11 +31,11 @@
 </template>
 
 <script setup lang='ts'>
-import { PropType, useSlots } from 'vue'
+import { PropType, useSlots, computed } from 'vue'
 
 const slots = useSlots()
 
-const emits = defineEmits<{
+const emit = defineEmits<{
 	(event: 'update:show', value: boolean)
 }>()
 const props = defineProps({
@@ -61,9 +59,18 @@ const props = defineProps({
 	}
 })
 
+const show = computed({
+	get() {
+		return props.show
+	},
+	set(val: boolean) {
+		emit('update:show', val)
+	}
+})
+
 // 显示隐藏改变事件
 const showUpdate = (value: boolean) => {
-	emits('update:show', value)
+	emit('update:show', value)
 }
 </script>
 
